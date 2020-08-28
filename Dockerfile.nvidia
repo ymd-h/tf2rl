@@ -1,0 +1,26 @@
+# syntax = docker/dockerfile:experimental
+FROM nvidia/cuda:11.0-devel
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt update \
+	&& apt install -y --no-install-recommends \
+	cmake \
+	libopencv-dev \
+	python3-opengl \
+	python3-pip \
+	zlib1g-dev \
+	&& apt clean \
+	&& rm -rf /var/lib/apt/lists/* \
+	&& ln -s /usr/bin/python3 /usr/bin/python \
+	&& ln -s /usr/bin/pip3 /usr/bin/pip
+
+# cmake & zlib1g-dev for atari-py
+
+RUN --mount=type=cache,target=/root/.cache/pip \
+	pip install -U \
+	matplotlib \
+	tensorflow==2.2.* \
+	tf2rl
+
+CMD ["/bin/bash"]
