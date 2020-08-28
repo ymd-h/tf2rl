@@ -1,0 +1,27 @@
+name: docker
+
+on: [push,workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_BUILDKIT: 1
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/build-push-action@v1
+        with:
+          repository: ${{ secrets.DOCKERHUB_USERNAME }}/tf2rl
+          tags: cpu,latest
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          dockerfile: Dockerfile
+          always_pull: true
+      - uses: docker/build-push-action@v1
+        with:
+          repository: ${{ secrets.DOCKERHUB_USERNAME }}/tf2rl
+          tags: nvidia
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          dockerfile: Dockerfile.nvidia
+          always_pull: true
