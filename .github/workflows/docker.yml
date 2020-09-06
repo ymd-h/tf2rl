@@ -11,6 +11,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: docker/build-push-action@v1
         with:
+          registry: ghcr.io
           repository: ${{ secrets.DOCKERHUB_USERNAME }}/tf2rl
           tags: cpu,latest
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -19,6 +20,7 @@ jobs:
           always_pull: true
       - uses: docker/build-push-action@v1
         with:
+          registry: ghcr.io
           repository: ${{ secrets.DOCKERHUB_USERNAME }}/tf2rl
           tags: nvidia
           username: ${{ secrets.DOCKERHUB_USERNAME }}
