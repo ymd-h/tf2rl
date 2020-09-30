@@ -1,6 +1,9 @@
 name: docker
 
-on: [push,workflow_dispatch]
+on:
+  push:
+    tags:
+      - '*'
 
 jobs:
   build:
