@@ -11,6 +11,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 	pip install -U \
 	matplotlib \
 	tensorflow==2.2.* \
+	tensorflow_probability==0.10.* \
 	tf2rl
 
 CMD ["/bin/bash"]
