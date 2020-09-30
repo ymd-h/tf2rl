@@ -16,7 +16,7 @@ jobs:
         with:
           registry: ghcr.io
           repository: ${{ secrets.GITHUB_USERNAME }}/tf2rl/cpu
-          tags: ${{ github.ref }}, latest
+          tag_with_ref: true
           username: ${{ secrets.GITHUB_USERNAME }}
           password: ${{ secrets.GHCR_TOKEN }}
           dockerfile: Dockerfile
@@ -25,7 +25,7 @@ jobs:
         with:
           registry: ghcr.io
           repository: ${{ secrets.GITHUB_USERNAME }}/tf2rl/nvidia
-          tags: ${{ github.ref }}, latest
+          tag_with_ref: true
           username: ${{ secrets.GITHUB_USERNAME }}
           password: ${{ secrets.GHCR_TOKEN }}
           dockerfile: Dockerfile.nvidia
