@@ -15,18 +15,18 @@ jobs:
       - uses: docker/build-push-action@v1
         with:
           registry: ghcr.io
-          repository: ${{ secrets.GITHUB_USERNAME }}/tf2rl/cpu
+          repository: ${{ github.repository_owner }}/tf2rl/cpu
           tag_with_ref: true
-          username: ${{ secrets.GITHUB_USERNAME }}
+          username: ${{ github.repository_owner }}
           password: ${{ secrets.GHCR_TOKEN }}
           dockerfile: Dockerfile
           always_pull: true
       - uses: docker/build-push-action@v1
         with:
           registry: ghcr.io
-          repository: ${{ secrets.GITHUB_USERNAME }}/tf2rl/nvidia
+          repository: ${{ github.repository_owner }}/tf2rl/nvidia
           tag_with_ref: true
-          username: ${{ secrets.GITHUB_USERNAME }}
+          username: ${{ github.repository_owner }}
           password: ${{ secrets.GHCR_TOKEN }}
           dockerfile: Dockerfile.nvidia
           always_pull: true
