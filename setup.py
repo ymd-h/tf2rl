@@ -2,7 +2,6 @@ from setuptools import setup, find_packages
 
 install_requires = [
     "cpprb>=9.4.2",
-    "setuptools>=51.1.0",
     "numpy>=1.16.0",
     "joblib",
     "scipy>=1.4.1"]
