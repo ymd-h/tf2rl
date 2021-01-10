@@ -2,10 +2,10 @@ from setuptools import setup, find_packages
 
 install_requires = [
     "cpprb>=9.4.2",
-    "setuptools>=41.0.0",
+    "setuptools>=51.1.0",
     "numpy>=1.16.0",
     "joblib",
-    "scipy"]
+    "scipy>=1.4.1"]
 
 tf_version = "2.3"  # Default Version
 try:
