@@ -4,7 +4,8 @@ install_requires = [
     "cpprb>=9.4.2",
     "numpy>=1.16.0",
     "joblib",
-    "scipy>=1.4.1"]
+    "scipy>=1.4.1",
+    "six>=1.10.0"]
 
 tf_version = "2.3"  # Default Version
 try:
