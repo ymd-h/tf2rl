@@ -12,3 +12,15 @@ def import_tf():
             print(cur_device)
             tf.config.experimental.set_memory_growth(cur_device, enable=True)
     return tf
+
+
+
+def explorer():
+    pass
+
+def learner():
+    pass
+
+
+def run(args, env_fn, policy_fn, get_weights_fn, set_weights_fn):
+    initialize_logger(logging_level=logging.getLevelName(args.logging_level))
