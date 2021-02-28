@@ -62,9 +62,46 @@ def explorer(global_rb, queue, trained_steps, is_training_done,
         local_rb.clear()
 
 
-def learner():
-    pass
+def learner(global_rb, trained_steps, is_training_done, policy_fn, get_weights_fn,
+            env, n_training, update_freq, evaluation_freq, gpu, queues,
+            c_bar = 1, rho_bar = 1):
+    tf.import_tf()
+    logger = logging.getLogger("tf2rl")
 
+    policy = policy_fn(env, "Learner", gpu=gpu)
+
+    output_dir = prepare_output_dir(args=None,
+                                    user_specified_dir="./results",
+                                    suffix="learner")
+    writer = tf.summary.create_file_writer(output_dir)
+    writer.set_as_default()
+
+    while not global_rb.get_stored_size() < policy.n_warmup:
+        time.sleep(1)
+
+    start_time = time.perf_counter()
+    while not is_training_done.is_set():
+        with trained_steps.get_lock():
+            trained_steps.value += 1
+        n_trained_steps = trained_steps.value
+
+        samples = global_rb.sample(policy.batch_size)
+        ploicy.train(samples["obs"], samples["act"], samples["next_obs"],
+                     samples["rew"], samples["done"],
+                     samples["logp"], samples["LSTM"])
+
+        # Put updated weights to queue
+        if n_trained_steps % update_freq == 0:
+            w = get_weights_fn(policy)
+            for q in queues[:-1]:
+                q.put(w)
+
+        # Periodically do evaluation
+        if n_trained_steps % evaluation_freq == 0:
+            queues[-1].put((get_weights_fn(policy), n_trained_steps))
+
+        if n_trained_steps >= n_training:
+            is_training_done.set()
 
 def run(args, env_fn, policy_fn, get_weights_fn, set_weights_fn):
     initialize_logger(logging_level=logging.getLevelName(args.logging_level))
