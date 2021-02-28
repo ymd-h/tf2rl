@@ -32,7 +32,7 @@ def explorer(global_rb, queue, trained_steps, is_training_done,
     local_idx = np.arange(local_rb.get_buffer_size(), dtype=np.int)
 
     obs = env.reset()
-    while not is_trainig_don.is_set():
+    while not is_training_done.is_set():
         if not queue.empty():
             w = queue.get()
             set_weights_fn(policy_fn,w)
