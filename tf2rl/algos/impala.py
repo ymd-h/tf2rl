@@ -123,8 +123,9 @@ class IMPALA(OffPolicyAgent):
                  name = "name",
                  **kwargs):
         super().__init__(name=name, memory_capacity=memory_capacity, **kwargs)
-        self.c_bar = c_bar
-        self.rho_bar = rho_bar
+        self.c_bar = tf.constant(c_bar)
+        self.rho_bar = tf.constant(rho_bar)
+
 
         self.lr = lr
         self.momentum = momentum
