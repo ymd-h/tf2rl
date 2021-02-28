@@ -115,6 +115,9 @@ class IMPALA(OffPolicyAgent):
                  memory_capacity=int(1e+6),
                  c_bar = 1,
                  rho_bar = 1,
+                 entropy_cost = 0.00025,
+                 baseline_cost = 0.5,
+                 gamma = 0.99,
                  lr = 0.00048,
                  momentum = 0.0,
                  rms_decay = 0.99,
@@ -125,6 +128,9 @@ class IMPALA(OffPolicyAgent):
         super().__init__(name=name, memory_capacity=memory_capacity, **kwargs)
         self.c_bar = tf.constant(c_bar)
         self.rho_bar = tf.constant(rho_bar)
+        self.entropy_cost = tf.constant(entropy_cost)
+        self.baseline_cost = tf.constant(baseline_cost)
+        self.gamma = tf.constant(gamma)
 
 
         self.lr = lr
