@@ -4,6 +4,8 @@ import multiprocessing
 
 from cpprb import ReplayBuffer, MPReplayBuffer
 
+from tf2rl.algos.policy_base import OffPolicyAgent
+
 
 def import_tf():
     import tensorflow as tf
@@ -105,3 +107,45 @@ def learner(global_rb, trained_steps, is_training_done, policy_fn, get_weights_f
 
 def run(args, env_fn, policy_fn, get_weights_fn, set_weights_fn):
     initialize_logger(logging_level=logging.getLevelName(args.logging_level))
+
+
+class IMPALA(OffPolicyAgent):
+    def __init__(self,
+                 unroll_length=100,
+                 memory_capacity=int(1e+6),
+                 c_bar = 1,
+                 rho_bar = 1,
+                 lr = 0.00048,
+                 momentum = 0.0,
+                 rms_decay = 0.99,
+                 rms_epsilon = 0.1,
+                 optimizer = None,
+                 **kwargs):
+        super().__init__(memory_capacity=memory_capacity, **kwargs)
+        self.c_bar = c_bar
+        self.rho_bar = rho_bar
+
+        self.lr = lr
+        self.momentum = momentum
+        self.rms_decay = rms_decay
+        self.rms_epsilon = rms_epsilon
+        self.optimizer = (optimizer
+                          or tf.keras.optimizers.RMSProp(learning_rate = self.lr,
+                                                         rho = self.rms_decay,
+                                                         momentum = self.momentum,
+                                                         epsilon = self.rms_epsilon))
+
+
+    def get_action(self, state, test=False):
+        pass
+
+    def get_action_and_val(self, state, test=False):
+        pass
+
+    @staticmethod
+    def get_argument(parser=None):
+        parser = OffPolicyAgent.get_argument(parser)
+        parser.add_argument('--unroll-length', default=100)
+        parser.add_argument('--c-bar', default=1)
+        parser.add_argument('--rho-bar', default=1)
+        return parser
