@@ -120,8 +120,9 @@ class IMPALA(OffPolicyAgent):
                  rms_decay = 0.99,
                  rms_epsilon = 0.1,
                  optimizer = None,
+                 name = "name",
                  **kwargs):
-        super().__init__(memory_capacity=memory_capacity, **kwargs)
+        super().__init__(name=name, memory_capacity=memory_capacity, **kwargs)
         self.c_bar = c_bar
         self.rho_bar = rho_bar
 
