@@ -16,7 +16,7 @@ def import_tf():
 
 
 def explorer(global_rb, queue, trained_steps, is_training_done,
-             env_fn, policy_fn, set_weights_fn, nsteps=100):
+             env_fn, policy_fn, set_weights_fn, unroll_length=100):
     """
 
     """
@@ -26,7 +26,7 @@ def explorer(global_rb, queue, trained_steps, is_training_done,
     env = env_fn()
 
     policy = policy_fn(env=env, name="Explorer")
-    kwargs = get_default_rb_dict(nsteps)
+    kwargs = get_default_rb_dict(unroll_length)
     kwargs["env_dict"]["logp"] = {}
     local_rb = ReplayBuffer(**kwargs)
     local_idx = np.arange(local_rb.get_buffer_size(), dtype=np.int)
